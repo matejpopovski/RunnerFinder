@@ -69,6 +69,7 @@ Copy and paste:
 ```bash
 git clone https://github.com/<your-username>/RunnerFinder.git
 cd RunnerFinder
+```
 
 ## 2. Create and activate a virtual environment
  
@@ -76,6 +77,7 @@ cd RunnerFinder
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
+```
 
 ### Windows
 ```bash
@@ -85,16 +87,18 @@ python -m venv .venv
 ## 3. Install all dependencies
 ```bash
 pip install -r requirements.txt
+```
 
 ## 4. Add marathon photos
 ### Place your images inside this folder:
 ```bash
 photos/
+```
 
 ## 5. Run the web app
 ```bash
 streamlit run app.py
-
+```
 
 ## Project structure
 
