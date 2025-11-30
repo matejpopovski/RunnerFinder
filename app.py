@@ -11,49 +11,38 @@ def normalize_digits(text: str) -> str:
     return "".join(ch for ch in text if ch.isdigit())
 
 
-# def lcs_length(a: str, b: str) -> int:
-#     """Length of the longest common subsequence between a and b."""
-#     m, n = len(a), len(b)
-#     dp = [[0] * (n + 1) for _ in range(m + 1)]
-#     for i in range(m):
-#         for j in range(n):
-#             if a[i] == b[j]:
-#                 dp[i + 1][j + 1] = dp[i][j] + 1
-#             else:
-#                 dp[i + 1][j + 1] = max(dp[i][j + 1], dp[i + 1][j])
-#     return dp[m][n]
+def lcs_length(a: str, b: str) -> int:
+    """Length of the longest common subsequence between a and b."""
+    m, n = len(a), len(b)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    for i in range(m):
+        for j in range(n):
+            if a[i] == b[j]:
+                dp[i + 1][j + 1] = dp[i][j] + 1
+            else:
+                dp[i + 1][j + 1] = max(dp[i][j + 1], dp[i + 1][j])
+    return dp[m][n]
 
 
-def is_number_match(candidate: str, target: str, min_match_ratio: float = 0.6) -> bool:
+def match_ratio(candidate: str, target: str) -> float:
     """
-    Decide if candidate (OCR digits) is a valid match for target.
-    Rules:
-      - If same length: require exact equality.
-      - If candidate is shorter: allow only if it is a prefix or suffix of target,
-        and its length / len(target) >= min_match_ratio.
-      - Otherwise: no match.
+    Return the LCS-based match ratio between candidate and target.
+    Ratio = LCS(candidate, target) / len(target).
+
+    Both strings are first converted to digits-only.
     """
     candidate = normalize_digits(candidate)
     target = normalize_digits(target)
     if not candidate or not target:
-        return False
+        return 0.0
 
-    # Same length -> require exact match
-    if len(candidate) == len(target):
-        return candidate == target
+    lcs = lcs_length(candidate, target)
+    return lcs / len(target)
 
-    # If candidate is longer than target, reject (cannot be simple occlusion)
-    if len(candidate) > len(target):
-        return False
 
-    # Candidate shorter: allow prefix/suffix matches (start or end occluded)
-    if target.startswith(candidate) or target.endswith(candidate):
-        ratio = len(candidate) / len(target)
-        return ratio >= min_match_ratio
-
-    # Anything else (e.g., missing middle digit) -> no match
-    return False
-
+def is_number_match(candidate: str, target: str, min_match_ratio: float = 0.6) -> bool:
+    """Return True if the match ratio is at least min_match_ratio."""
+    return match_ratio(candidate, target) >= min_match_ratio
 
 
 @st.cache_resource
@@ -66,6 +55,12 @@ def process_image(img_path: Path, number: str, reader, min_match_ratio: float):
     """
     Run OCR on one image, draw boxes around matches, and
     return the annotated RGB image plus a list of matches.
+
+    Each match dict contains:
+        - digits: detected digits
+        - conf: OCR confidence
+        - bbox: bounding box
+        - match_ratio: LCS-based match ratio to the target number
     """
     img = cv2.imread(str(img_path))
     if img is None:
@@ -79,8 +74,12 @@ def process_image(img_path: Path, number: str, reader, min_match_ratio: float):
         if not digits:
             continue
 
-        if is_number_match(digits, number, min_match_ratio=min_match_ratio):
-            matches.append({"digits": digits, "conf": conf, "bbox": bbox})
+        mr = match_ratio(digits, number)  # between 0 and 1
+
+        if mr >= min_match_ratio:
+            matches.append(
+                {"digits": digits, "conf": conf, "bbox": bbox, "match_ratio": mr}
+            )
 
             # draw box on image
             pts = [(int(x), int(y)) for (x, y) in bbox]
@@ -167,8 +166,10 @@ if start_search:
             total_matches += 1
             st.subheader(img_path.name)
 
+            # Show both match ratio and OCR confidence
             match_strings = [
-                f"{m['digits']} (conf={m['conf']:.2f})" for m in matches
+                f"{m['digits']} (match={m['match_ratio']:.2f}, ocr_conf={m['conf']:.2f})"
+                for m in matches
             ]
             st.write("Matches in this image: " + ", ".join(match_strings))
             st.image(img_rgb, use_container_width=True)
