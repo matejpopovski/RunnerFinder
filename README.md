@@ -12,15 +12,6 @@ Given a folder of race photos and a target number, the app:
 
 ## Screenshots
 
-### Search example: runner 183
-
-This screenshot shows RunnerFinder searching for runner number `183` with a minimum match ratio of `0.65`.  
-Several images with numbers that partially match `183` (e.g., `103`, `1322`) are found and annotated.
-
-![Search example for 183](readme_photos/Screenshot2.png)
-
----
-
 ### Search example: runner 1437 (with progress bar)
 
 While scanning the photo folder, the app shows the current image being processed, a progress bar, and the configured search settings in the sidebar.
@@ -37,7 +28,7 @@ The left sidebar lets the user:
 - Adjust the **minimum match ratio** (how strict matching should be for partially visible / occluded numbers).
 - Start the search.
 
-![Search settings sidebar](readme_photos/Screenshot3.png)
+![Search settings sidebar](readme_photos/Screenshot1.png)
 
 ---
 
@@ -53,6 +44,15 @@ For each detected number it shows:
 Bounding boxes are drawn around all matches.
 
 ![Result view with multiple numbers](readme_photos/Screenshot4.png)
+
+---
+
+### Search example: runner 183
+
+This screenshot shows RunnerFinder searching for runner number `183` with a minimum match ratio of `0.65`.  
+Several images with numbers that partially match `183` (e.g., `103`, `1322`) are found and annotated.
+
+![Search example for 183](readme_photos/Screenshot3.png)
 
 ---
 
