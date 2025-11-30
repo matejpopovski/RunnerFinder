@@ -28,7 +28,7 @@ The left sidebar lets the user:
 - Adjust the **minimum match ratio** (how strict matching should be for partially visible / occluded numbers).
 - Start the search.
 
-![Search settings sidebar](readme_photos/Screenshot1.png)
+![Search settings sidebar](readme_photos/Screenshot3.png)
 
 ---
 
@@ -43,7 +43,7 @@ For each detected number it shows:
 
 Bounding boxes are drawn around all matches.
 
-![Result view with multiple numbers](readme_photos/Screenshot4.png)
+![Result view with multiple numbers](readme_photos/Screenshot2.png)
 
 ---
 
@@ -52,7 +52,7 @@ Bounding boxes are drawn around all matches.
 This screenshot shows RunnerFinder searching for runner number `183` with a minimum match ratio of `0.65`.  
 Several images with numbers that partially match `183` (e.g., `103`, `1322`) are found and annotated.
 
-![Search example for 183](readme_photos/Screenshot3.png)
+![Search example for 183](readme_photos/Screenshot4.png)
 
 ---
 
