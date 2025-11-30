@@ -1,4 +1,4 @@
-# RunnerFinder – Number Search
+# RunnerFinder – Marathon Number Search
 
 RunnerFinder is a Python + Streamlit app that scans marathon photos and finds runners by their **number (bib)**.  
 Given a folder of race photos and a target number, the app:
