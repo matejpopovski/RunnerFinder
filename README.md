@@ -56,6 +56,46 @@ Several images with numbers that partially match `183` (e.g., `103`, `1322`) are
 
 ---
 
+# How to Run RunnerFinder on Your Own Computer
+
+Below are the exact steps for any user to run the project locally.
+
+---
+
+## 1. Clone the repository
+
+Copy and paste:
+
+```bash
+git clone https://github.com/<your-username>/RunnerFinder.git
+cd RunnerFinder
+
+## 2. Create and activate a virtual environment
+ 
+### macOS / Linux
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+
+### Windows
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+
+## 3. Install all dependencies
+```bash
+pip install -r requirements.txt
+
+## 4. Add marathon photos
+### Place your images inside this folder:
+```bash
+photos/
+
+## 5. Run the web app
+```bash
+streamlit run app.py
+
+
 ## Project structure
 
 Current repository layout:
