@@ -10,8 +10,6 @@ Given a folder of race photos and a target number, the app:
 
 ---
 
-## Screenshots
-
 ### Search example: runner 1437 (with progress bar)
 
 While scanning the photo folder, the app shows the current image being processed, a progress bar, and the configured search settings in the sidebar.
